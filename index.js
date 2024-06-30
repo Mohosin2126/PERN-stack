@@ -31,10 +31,41 @@ app.get("/books/:id",(req,res)=>{
 
 // POST Books
 
+app.post("/books",(req,res)=>{
+    try{
+  const {name,description}=req.body
+        res.status(201).json({message:"book is created  ",name,description})
+    }
+    catch(err){
+        res.status(500).send(err.message)
+    }
+})
+
+
+// Delete
+
+app.delete("/books/:id",(req,res)=>{
+    try{
+        const {id}=req.params
+        res.status(200).json({message:"book is deleted  ",id})
+    }
+    catch(err){
+        res.status(500).send(err.message)
+    }
+})
 
 
 
-
+// Put
+app.put("/books/:id",(req,res)=>{
+    try{
+      const id=req.params
+        res.status(201).json({message:"book is updated  ",id})
+    }
+    catch(err){
+        res.status(500).send(err.message)
+    }
+})
 
 
 
