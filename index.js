@@ -68,6 +68,12 @@ app.put("/books/:id",(req,res)=>{
 })
 
 
+// CRUD operation in postgresql
+
+
+
+
+
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
