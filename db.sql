@@ -8,3 +8,6 @@ CREATE TABLE book(
     description VARCHAR(255)
 );
 
+INSERT INTO book(id,name,description)
+VALUES
+    (102,x,beautiful book)

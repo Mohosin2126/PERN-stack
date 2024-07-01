@@ -2,6 +2,7 @@ const express=require("express")
 
 const app=express()
 const PORT =5000
+const pool=require("./db")
 app.use(express.json())
 
 // GET All Books
@@ -21,7 +22,8 @@ app.get("/books",(req,res)=>{
 app.get("/books/:id",(req,res)=>{
     try{
         const {id}=req.params
-        res.status(200).json({message:"specific books are return with it  ",id})
+
+        res.status(200).json({message:"specific books are return with it  ",})
     }
     catch(err){
         res.status(500).send(err.message)
@@ -31,15 +33,17 @@ app.get("/books/:id",(req,res)=>{
 
 // POST Books
 
-app.post("/books",(req,res)=>{
-    try{
-  const {name,description}=req.body
-        res.status(201).json({message:"book is created  ",name,description})
-    }
-    catch(err){
-        res.status(500).send(err.message)
-    }
-})
+// app.post("/books",async (req,res)=>{
+//     try{
+//         // inserting book data into database
+//         const newBook= await pool.query("INSERT INTO book (name,description) VALUES($1,$2) RETURNING *",[name,description])
+//   const {name,description}=req.body
+//         res.status(201).json({message:"book is created  ",newBook:newBook})
+//     }
+//     catch(err){
+//         res.status(500).send(err.message)
+//     }
+// })
 
 
 // Delete
@@ -69,6 +73,21 @@ app.put("/books/:id",(req,res)=>{
 
 
 // CRUD operation in postgresql
+
+// POST Books
+
+app.post("/books", async (req, res) => {
+    const { name, description } = req.body; // Define name and description here
+
+    try {
+        // inserting book data into database
+        const newBook = await pool.query("INSERT INTO book (name, description) VALUES ($1, $2) RETURNING *", [name, description]);
+
+        res.status(201).json({ message: "Book is created", newBook: newBook.rows[0] }); // Access newBook.rows[0] to get the inserted book
+    } catch (err) {
+        res.status(500).send(err.message);
+    }
+});
 
 
 
